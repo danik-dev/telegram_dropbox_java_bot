@@ -1,0 +1,22 @@
+{
+    "folders": [
+        {
+            "path": "common-jpa"
+        },
+        {
+            "path": "common-rabbitmq"
+        },
+        {
+            "path": "dispatcher"
+        },
+        {
+            "path": "node"
+        },
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "java.compile.nullAnalysis.mode": "disabled"
+    }
+}
