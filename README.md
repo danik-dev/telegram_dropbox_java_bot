@@ -1,23 +1,59 @@
 NOTES:
-This is a not finished telegram drop-box bot written with java.
+This is a telegram drop-box bot written with java.
 
 START UP INSTRUCTIONS
 
-To run the application you must have installed jdk (with configured JAVA_HOME) docker and docker-compose.
+STEP 1
 
-* At first you should create your own bot with 'Telegram Bot Father' and put its credentials to dropbox_java_bot/dispatcher/src/main/resources/application.properties 
+To run the application you must have installed:
+        
+* jdk (with configured JAVA_HOME) 
 
-* Then with terminal navigate to the project root directory and run
+* docker and docker-compose -- to build services
+
+* localtunnel from npm -- to get static ip for webhooks
+
+STEP 2
+Then you must fill required properties in property-files
+
+telegranm_dropbox_java_bot/dispatcher/src/main/resources/application.properties 
+
+* bot.name - name of your bot
+
+* bot.token - token from Telegram Bot Father
+        
+* bot.uri - static ip that you receive by localtunnel (same port as dispatcher)
+
+Run in terminal to get static ip:
+
+        lt --port 8084
+        
+telegranm_dropbox_java_bot/node/src/main/resources/application.properties 
+
+* token - same as bot.token
+
+telegranm_dropbox_java_bot/rest-service/src/main/resources/application.properties 
+
+* salt - additional input for id hashing function
+
+telegranm_dropbox_java_bot/mail-service/src/main/resources/application.properties 
+
+* spring.mail.username - email for sending mails to confirm registration
+
+* spring.mail.password - password of that email
+
+STEP 3
+  Then with terminal navigate to the project root directory and run
 
         docker-compose up
 
-    It starts up following services: 
+It starts up following services: 
+
+*PostgreSQL database (for data storage)
     
-    -PostgreSQL database (for data storage)
+*PgAdmin - to manage created database
     
-    -PgAdmin - to manage created database
-    
-    -RabbitMq - to interact between
+*RabbitMq - to interact between
 
 
 After that your should run despatcher and node microservices.
