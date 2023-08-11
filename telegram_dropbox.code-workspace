@@ -1,22 +1,49 @@
 {
     "folders": [
         {
-            "path": "common-jpa"
-        },
-        {
+            "name": "common-rabbitmq",
             "path": "common-rabbitmq"
         },
         {
+            "name": "dispatcher",
             "path": "dispatcher"
         },
         {
+            "name": "node",
             "path": "node"
+        },
+        {
+            "name": "rest-service",
+            "path": "rest-service"
+        },
+        {
+            "path": "common-utils"
+        },
+        {
+            "path": "mail-service"
+        },
+        {
+            "path": "common-jpa"
         },
         {
             "path": "."
         }
     ],
     "settings": {
-        "java.compile.nullAnalysis.mode": "disabled"
+        "java.compile.nullAnalysis.mode": "disabled",
+        "sqltools.connections": [
+            {
+                "previewLimit": 50,
+                "server": "localhost",
+                "port": 5432,
+                "driver": "PostgreSQL",
+                "group": "tg_bot",
+                "name": "tg_bot_dev",
+                "database": "storage",
+                "username": "root",
+                "password": "root"
+            }
+        ],
+        "java.configuration.updateBuildConfiguration": "automatic"
     }
 }

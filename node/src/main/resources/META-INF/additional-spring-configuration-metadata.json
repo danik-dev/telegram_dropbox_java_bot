@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "service.file_info.uri",
+    "type": "java.lang.String",
+    "description": "A description for 'service.file_info.uri'"
+  },
+  {
+    "name": "token",
+    "type": "java.lang.String",
+    "description": "A description for 'token'"
+  },
+  {
+    "name": "service.file_storage.uri",
+    "type": "java.lang.String",
+    "description": "A description for 'service.file_storage.uri'"
+  },
+  {
+    "name": "service.mail.uri",
+    "type": "java.lang.String",
+    "description": "A description for 'service.mail.uri'"
+  },
+  {
+    "name": "link.address",
+    "type": "java.lang.String",
+    "description": "A description for 'link.address'"
+  },
+  {
+    "name": "salt",
+    "type": "java.lang.String",
+    "description": "A description for 'salt'"
+  }
+]}

@@ -1,10 +1,6 @@
 data
 logs
-common-jpa/target
-common-rabbitmq/target
-dispatcher/target
-node/target
-/telegram_dropbox.code-workspace
+**/target/
 
 
 !.mvn/wrapper/maven-wrapper.jar
