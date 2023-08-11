@@ -1,18 +1,18 @@
-#Telegram Drop-box bot
+# Telegram Drop-box bot
 This is a telegram drop-box bot written with java.
 
 Basic functinality was taken from this youtube [guide](https://youtube.com/playlist?list=PLV_4DSIw2vvI3_a6L_z5AlNaIdFNqQlW2).
 
-##START UP INSTRUCTIONS
+## START UP INSTRUCTIONS
 
-###STEP 1
+### STEP 1
 
 To run the application you must have installed:
 * jdk (with configured JAVA_HOME) 
 * docker and docker-compose - to build services
 * localtunnel from npm - to get static ip for webhooks
 
-###STEP 2
+### STEP 2
 Then you must fill required properties in property-files:
 
 telegranm_dropbox_java_bot/dispatcher/src/main/resources/application.properties 
@@ -34,7 +34,7 @@ telegranm_dropbox_java_bot/mail-service/src/main/resources/application.propertie
 * spring.mail.username - email for sending mails to confirm registration
 * spring.mail.password - password of that email
 
-###STEP 3
+### STEP 3
   Then with terminal navigate to the project root directory and run
 
         docker-compose up
@@ -44,7 +44,7 @@ It starts up following services:
 * PgAdmin - to manage created database
 * RabbitMq - to interact between
 
-###STEP 4
+### STEP 4
 After that your should run all microservices starting with dispatcher.
 
 ---
