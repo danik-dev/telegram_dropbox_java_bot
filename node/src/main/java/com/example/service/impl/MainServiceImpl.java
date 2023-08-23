@@ -56,7 +56,12 @@ public class MainServiceImpl implements MainService {
 
         var chatId = update.getMessage().getChatId();
         sendAnswer(output, chatId);
+    }
 
+    private String cancelProcess(AppUser appUser) {
+        appUser.setState(UserState.BASIC_STATE);
+        appUserDAO.save(appUser);
+        return "Команда отменена";
     }
 
     private String processServiceCommand(AppUser appUser, String cmd) {
@@ -78,19 +83,6 @@ public class MainServiceImpl implements MainService {
                 + "/registration - регистрация пользовтеля";
     }
 
-    private String cancelProcess(AppUser appUser) {
-        appUser.setState(UserState.BASIC_STATE);
-        appUserDAO.save(appUser);
-        return "Команда отменена";
-    }
-
-    private void sendAnswer(String output, Long chatId) {
-        var sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(output);
-        producerService.producerAnswer(sendMessage);
-    }
-
     private AppUser findOrSaveAppUser(Update update) {
         User telegramUser = update.getMessage().getFrom();
         var optional = appUserDAO.findByTelegramUserId(telegramUser.getId());
@@ -108,11 +100,7 @@ public class MainServiceImpl implements MainService {
         return optional.get();
     }
 
-    private void saveRawData(Update update) {
-        RawData rawData = RawData.builder()
-                .event(update).build();
-        rawDataDAO.save(rawData);
-    }
+    
 
     @Override
     public void processDocMessage(Update update) {
@@ -154,8 +142,6 @@ public class MainServiceImpl implements MainService {
             String error = "К сожалению загрузка файла не удаласью Повторите попытку позже";
             sendAnswer(error, chatId);
         }
-        
-        
     }
 
     private boolean isNotAllowToSendContent(Long chatId, AppUser appUser) {
@@ -171,6 +157,19 @@ public class MainServiceImpl implements MainService {
         }
 
         return false;
+    }
+
+     private void saveRawData(Update update) {
+        RawData rawData = RawData.builder()
+                .event(update).build();
+        rawDataDAO.save(rawData);
+    }
+
+    private void sendAnswer(String output, Long chatId) {
+        var sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(output);
+        producerService.producerAnswer(sendMessage);
     }
 
 }

@@ -65,7 +65,7 @@ public class FileServiceImpl implements FileService {
     public AppPhoto processPhoto(Message telegramMessage) {
         var photoSizeCount = telegramMessage.getPhoto().size();
         var photoIndex = photoSizeCount > 1 ? telegramMessage.getPhoto().size() - 1 : 0;
-        //TODO пока что обрабатываем только одно фото
+        // TODO пока что обрабатываем только одно фото
         PhotoSize telegramPhoto = telegramMessage.getPhoto().get(photoIndex);
         String fileId = telegramPhoto.getFileId();
         ResponseEntity<String> response = getFilePath(fileId);
@@ -78,13 +78,17 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    private BinaryContent getPersistentBinaryContent(ResponseEntity<String> response) {
-        String filePath = getFilePath(response);
-        byte[] fileInByte = downloadFile(filePath);
-        BinaryContent transientBinaryContent = BinaryContent.builder()
-                .fileAsArrayOfBytes(fileInByte)
-                .build();
-        return binaryContentDAO.save(transientBinaryContent);
+    private ResponseEntity<String> getFilePath(String fileId) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        return restTemplate.exchange(
+                fileInfoUri,
+                HttpMethod.GET,
+                request,
+                String.class,
+                token, fileId);
     }
 
     private String getFilePath(ResponseEntity<String> response) {
@@ -92,6 +96,15 @@ public class FileServiceImpl implements FileService {
         return String.valueOf(jsonObject
                 .getJSONObject("result")
                 .getString("file_path"));
+    }
+
+    private BinaryContent getPersistentBinaryContent(ResponseEntity<String> response) {
+        String filePath = getFilePath(response);
+        byte[] fileInByte = downloadFile(filePath);
+        BinaryContent transientBinaryContent = BinaryContent.builder()
+                .fileAsArrayOfBytes(fileInByte)
+                .build();
+        return binaryContentDAO.save(transientBinaryContent);
     }
 
     private AppDocument buildTransientAppDoc(Document telegramDoc, BinaryContent persistentBinaryContent) {
@@ -130,23 +143,10 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    private ResponseEntity<String> getFilePath(String fileId) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> request = new HttpEntity<>(headers);
-
-        return restTemplate.exchange(
-                fileInfoUri,
-                HttpMethod.GET,
-                request,
-                String.class,
-                token, fileId);
-    }
-
     @Override
     public String generateLink(Long docId, LinkType linkType) {
         var hash = cryptoTool.hashOf(docId);
-        return "http://" + linkAddress + "/" + linkType + "?id=" + hash; 
+        return "http://" + linkAddress + "/" + linkType + "?id=" + hash;
     }
 
 }
